@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./scripts",
+        "./web_scrapers"
+    ]
+}
