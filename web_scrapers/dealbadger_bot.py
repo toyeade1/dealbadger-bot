@@ -50,9 +50,8 @@ def scrape_dealbadger(base_url, time_limit=3):
     chrome_options = Options()
     chrome_options.add_argument("--headless")  # Enables headless mode
     chrome_options.add_argument("--disable-gpu")  # Disable GPU acceleration (optional, but recommended)
-    chrome_options.add_argument("--window-size=1920,1080")  # Set the window size (optional)
+    driver = webdriver.Chrome(options=chrome_options)
 
-    driver = webdriver.Chrome()  # Make sure you have the Chrome driver installed and in your PATH
     driver.get(base_url)
     items = []
 
@@ -61,9 +60,18 @@ def scrape_dealbadger(base_url, time_limit=3):
             print(f"Scraping current page...")
             time.sleep(3)  # Wait for the page to load
 
+            print('Filtering Decatur and Electronics...')
+            all_locations = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[1]/div[1]/div[1]/button/span[1]').click()
+            categories_header = driver.find_element(By.XPATH, '//*[@id="megaMenu"]/div[3]/div/div/ul/li[1]')
+            categories_header.click()
+            time.sleep(3)
+            categories = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[1]/div[1]/div[2]/button/span[1]').click()
+            time.sleep(1)
+            electronics = driver.find_element(By.XPATH, '//*[@id="megaMenu"]/div[3]/div/div/div[3]/div[2]/ul/li[2]').click()
+            time.sleep(3)
+
             # Find all product containers (assuming each product is in a div with a common class like 'productCardGrid')
             item_containers = driver.find_elements(By.CLASS_NAME, 'productCardGrid')
-
             if not item_containers:
                 print(f"No items found on the current page. Ending scrape.")
                 break
@@ -89,6 +97,7 @@ def scrape_dealbadger(base_url, time_limit=3):
                             items.append({
                                 'title': title,
                                 'price': float(price),
+                                'price_with_premium': float(price) * 1.17,
                                 'time_left': time_left
                             })
                         else:

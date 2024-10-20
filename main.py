@@ -19,8 +19,6 @@ def main():
     all_items = scrape_dealbadger(base_url, time_limit)
 
     print(f"Scraped a total of {len(all_items)} items.\n")
-
-
     print(" *********** Saving items to dealbadger_items.json *************\n")
 
     with open('search_results/dealbadger_items.json', 'w') as f:
@@ -33,7 +31,7 @@ def main():
     print(" *********** Calculating Profit Margins *************\n")
     print(" *********** Ebay *************\n")
 
-    profitable_item('ebay')
+    profitable_item('ebay', profit_margin_min=30)
 
 
     print("Done scraping all items.")

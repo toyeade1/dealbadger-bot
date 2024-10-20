@@ -10,6 +10,7 @@ def scrape_ebay(item_names, search_limit=10):
 
     all_items = []
 
+
     try:
         for item_name in item_names:
             base_url = f"https://www.ebay.com/sch/i.html?_nkw={item_name['title'].replace(' ', '+')}&_ipg=100&_sop=13&LH_Sold=1&LH_Complete=1"
@@ -23,14 +24,29 @@ def scrape_ebay(item_names, search_limit=10):
             # Find all product containers
             try:
                 item_containers = driver.find_elements(By.CLASS_NAME, 's-item')
-
                 count = 0
+
                 for item in item_containers:
                     if count >= search_limit:
                         break
                     try:
                         title_element = item.find_element(By.CLASS_NAME, 's-item__title')
                         title = title_element.text.strip() if title_element else None
+
+                        try:
+                            sold_date_element = item.find_element(By.CLASS_NAME, 's-item__caption--signal')
+                            sold_date = sold_date_element.text.strip() if sold_date_element else None
+                        except:
+                            sold_date = None
+
+                        try:
+                            shipping_element = item.find_element(By.CLASS_NAME, 's-item__logisticsCost')
+                            shipping = shipping_element.text.strip().replace('+$', '').replace(' shipping', '') if shipping_element else None
+                            if shipping == 'Free':
+                                shipping = 0
+
+                        except:
+                            shipping = None
 
                         price_element = item.find_element(By.CLASS_NAME, 's-item__price')
                         price = price_element.text.strip().replace('$', '').replace(',', '') if price_element else None
@@ -39,7 +55,9 @@ def scrape_ebay(item_names, search_limit=10):
                             print(f"Found item: {title} - ${price}")
                             all_items.append({
                                 'title': title,
-                                'price': float(price),
+                                'price': float(price) + float(shipping),
+                                'sold_date': sold_date,
+                                'shipping': shipping,
                                 'searched_item': item_name['title']
                             })
 

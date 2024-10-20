@@ -14,6 +14,8 @@ will setup as either a github actions workflow or host on a VM with intervals of
 
 # Steps to run
 
+Install dependencies: pip install -r requirements.txt
+
 main.py -t [time_limit]
 
 time_limit: It will check bids up to this cutoff point ( i.e 3 will check all of the bids ongoing that are less than 3 hours)

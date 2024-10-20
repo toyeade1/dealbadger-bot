@@ -1,1 +1,3 @@
 search_results/*
+*.pyc
+*/__pycache__
