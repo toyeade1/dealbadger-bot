@@ -1,4 +1,5 @@
 import json
+from .send_notification import send_notification_sms, send_notification_email
 
 
 # load items from json file
@@ -24,28 +25,43 @@ def get_scraped_average_price(item_name, site):
 # calculate profit margin
 
 def profitable_item(site, profit_margin_min=30):
-    profit_items = []
+    profit_items = ''
     dealbadger_items = load_items('dealbadger')
 
     for item in dealbadger_items:
         try:
             avg_price = get_scraped_average_price(item['title'], site)
             if avg_price:
+                profit_amount = avg_price - item['price']
                 profit_margin = round((avg_price - item['price']) / avg_price * 100,2)
                 if profit_margin >= profit_margin_min:
                     print(f"Arbitrage Opportunity: {item['title']} - DBP:{item['price']} Price:{avg_price} PM:{profit_margin}%")
-                    profit_items.append({
-                        'title': item['title'],
-                        'dealbadger_price': item['price'],
-                        'site_avg_price': avg_price,
-                        'profit_margin': profit_margin
-                    })
+                    profit_items += f"Arbitrage Opportunity: {item['title']}\nDBP: {item['price']}\nFinal Price with Sale Price: {round(item['price'] * 1.17,2) }\n{site} Price: {round(avg_price, 2)}\nProfit Amount: {round(profit_amount,2)}\nPM: {profit_margin}%\nTime Left: {item['time_left']}\n\n\n"
 
         except Exception as e:
             print(f"Error while calculating profit margin: {e}")
             continue
+    
+    if profit_items == '':
+        print("No profitable items found.")
+        return
 
-    with open('search_results/profitable_items.json', "w") as f:
+    try:
+        email = send_notification_email(profit_items)
+        if email['success'] == True:
+            print("Email notification sent successfully")
+            sms = send_notification_sms(f"Found opportunities for {len(profit_items)} items. Check your email for details.")
+            if sms['success'] == True:
+                print("SMS notification sent successfully")
+            else:
+                print(f"Error while sending SMS notification: {sms}")
+        else:
+            print(f"Error while sending email notification: {email}")
+
+    except Exception as e:
+        print(f"Error while sending notifications (Email / SMS): {e}")
+
+    with open('search_results/profitable_items.txt', "w") as f:
         json.dump(profit_items, f, indent=2)
 
         

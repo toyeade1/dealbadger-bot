@@ -1,3 +1,5 @@
 search_results/*
 *.pyc
+__pycache__/*
 */__pycache__
+.env

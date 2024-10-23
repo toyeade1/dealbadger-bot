@@ -1,5 +1,5 @@
-
-from scripts import profitable_item
+import sys
+from scripts import profitable_item, send_notification_sms
 from web_scrapers import scrape_dealbadger, scrapers
 import json
 import argparse
@@ -17,6 +17,12 @@ def main():
 
     base_url = "https://dealbadger.com/search"
     all_items = scrape_dealbadger(base_url, time_limit)
+
+    if not all_items:
+        print("No items scraped from DealBadger. Exiting.")
+        send_notification_sms("No items scraped from DealBadger. Exiting.")
+        sys.exit(1)
+
 
     print(f"Scraped a total of {len(all_items)} items.\n")
     print(" *********** Saving items to dealbadger_items.json *************\n")

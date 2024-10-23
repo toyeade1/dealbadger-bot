@@ -105,7 +105,7 @@ def scrape_dealbadger(base_url, time_limit=3):
                     else:
                         # Break the loop if the time left is more than x hours (since items are ordered by time)
                         print(f"Encountered an item with more than {time_limit} hours left: {time_left}. Stopping further scraping.")
-                        break  # Break out of the loop as the items are ordered by time
+                        break
 
                 except Exception as e:
                     print(f"Error while scraping an item: {e}")

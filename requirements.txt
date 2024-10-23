@@ -2,3 +2,5 @@ requests==2.32.3
 ebaysdk==2.2.0
 beautifulsoup4==4.12.3
 selenium==4.25.0
+twilio==9.3.4
+python-dotenv==1.0.1

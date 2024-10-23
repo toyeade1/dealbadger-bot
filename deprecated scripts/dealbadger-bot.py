@@ -60,7 +60,7 @@ def scrape_dealbadger(base_url):
             
             # Move to the next page
             page += 1
-            time.sleep(2)  # Sleep to avoid overwhelming the server
+            time.sleep(3)  # Sleep to avoid overwhelming the server
         except Exception as e:
             print(f"Error on page {page}: {e}")
             break

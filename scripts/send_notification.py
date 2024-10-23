@@ -1,21 +1,47 @@
+import requests
 import smtplib
+from dotenv import load_dotenv, dotenv_values
+from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-def send_email_alert(item_name, profit_margin):
-    sender = 'your_email@gmail.com'
-    recipient = 'your_phone_or_email@gmail.com'
-    subject = f'Arbitrage Opportunity: {item_name}'
-    body = f'The item "{item_name}" has a profit margin of {profit_margin}%.'
+load_dotenv()
 
-    msg = MIMEText(body)
-    msg['Subject'] = subject
-    msg['From'] = sender
-    msg['To'] = recipient
+def send_notification_sms(message):
+    url = "https://textbelt.com/text"
+    data = {
+        "message": message,
+        "phone": dotenv_values('.env')['PHONE'],
+        "key": dotenv_values('.env')['SMS_API_KEY']
+    }
+    response = requests.post(url, data)
+    return response.json()
 
-    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
-        server.login(sender, 'your_password')
-        server.sendmail(sender, recipient, msg.as_string())
 
-# # Example usage
-# if profit_margin and profit_margin >= 30:
-#     send_email_alert("ZINUS Brock Metal And Wood Platform Bed Frame", profit_margin)
+def send_notification_email(message):
+    try: 
+        password = "sqcr doad hwav pjqn"
+        email = dotenv_values('.env')['EMAIL']
+        password = dotenv_values('.env')['EMAIL_PASSWORD']
+
+        msg = MIMEMultipart()
+        msg['From'] = email
+        msg['To'] = email
+        msg['Subject'] = "Arbitrage Opportunity"
+
+        msg.attach(MIMEText(message, 'plain'))
+
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login(email, password)
+
+        text = msg.as_string()
+        server.sendmail(email, email, text)
+
+        server.quit()
+
+        return {"success": True}
+    
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
