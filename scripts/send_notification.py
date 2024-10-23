@@ -19,7 +19,6 @@ def send_notification_sms(message):
 
 def send_notification_email(message):
     try: 
-        password = "sqcr doad hwav pjqn"
         email = dotenv_values('.env')['EMAIL']
         password = dotenv_values('.env')['EMAIL_PASSWORD']
 
