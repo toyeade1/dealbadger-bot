@@ -1,3 +1,4 @@
+import os
 import requests
 import smtplib
 from dotenv import load_dotenv, dotenv_values
@@ -10,8 +11,8 @@ def send_notification_sms(message):
     url = "https://textbelt.com/text"
     data = {
         "message": message,
-        "phone": dotenv_values('.env')['PHONE'],
-        "key": dotenv_values('.env')['SMS_API_KEY']
+        "phone": os.getenv('PHONE'),
+        "key": os.getenv('SMS_API_KEY')
     }
     response = requests.post(url, data)
     return response.json()
@@ -19,8 +20,8 @@ def send_notification_sms(message):
 
 def send_notification_email(message):
     try: 
-        email = dotenv_values('.env')['EMAIL']
-        password = dotenv_values('.env')['EMAIL_PASSWORD']
+        email = os.getenv('EMAIL')
+        password = os.getenv('EMAIL_PASSWORD')
 
         msg = MIMEMultipart()
         msg['From'] = email
