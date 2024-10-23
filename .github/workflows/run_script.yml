@@ -5,32 +5,41 @@ on:
     # Set to run at 9:00 AM and 9:00 PM UTC
     - cron: '0 9,21 * * *'
 
+
 jobs:
-  run-script:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
-   
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-
-    - name: Load environment variables from .env
-      run: |
-        echo "Loading .env variables"
-        cat .env | while read line; do
-          if [[ ! -z "$line" && "$line" != \#* ]]; then
-            echo "$line" >> $GITHUB_ENV
-          fi
-        done
-
-    - name: Run Python script
-      run: python main.py --tl 12
+    build:
+      runs-on: ubuntu-latest
+      services:
+        selenium:
+          image: selenium/standalone-chrome:latest
+          ports:
+            - 4444:4444
+  
+  
+      steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+  
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 pytest
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+  
+      - name: Run Python script
+        env:
+          PHONE: ${{ secrets.PHONE }}
+          SMS_API_KEY: ${{ secrets.SMS_API_KEY }}
+          EMAIL: ${{ secrets.EMAIL }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+        run: python main.py --tl 12
+  
+  
+    
+            
+    
