@@ -1,7 +1,7 @@
 import os
+from dotenv import load_dotenv
 import requests
 import smtplib
-from dotenv import load_dotenv, dotenv_values
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 

@@ -48,8 +48,9 @@ def parse_time_left(time_left_str):
 def scrape_dealbadger(base_url, time_limit=3):
 
     chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Enables headless mode
-    chrome_options.add_argument("--disable-gpu")  # Disable GPU acceleration (optional, but recommended)
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
     driver = webdriver.Chrome(options=chrome_options)
 
     driver.get(base_url)
@@ -58,7 +59,7 @@ def scrape_dealbadger(base_url, time_limit=3):
     while True:
         try:
             print(f"Scraping current page...")
-            time.sleep(3)  # Wait for the page to load
+            time.sleep(3)  # Wait for the page to load//*[@id="root"]/div/div[1]/div/div[2]/button/span[1]
 
             print('Filtering Decatur and Electronics...')
             all_locations = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[1]/div[1]/div[1]/button/span[1]').click()
