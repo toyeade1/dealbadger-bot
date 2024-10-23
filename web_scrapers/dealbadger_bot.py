@@ -58,20 +58,22 @@ def scrape_dealbadger(base_url, time_limit=3):
 
     while True:
         try:
-            print(f"Scraping current page...")
-            time.sleep(3)  # Wait for the page to load//*[@id="root"]/div/div[1]/div/div[2]/button/span[1]
-
+            print(f"Scraping current page...") 
+            time.sleep(3) 
+            
             print('Filtering Decatur and Electronics...')
-            all_locations = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[1]/div[1]/div[1]/button/span[1]').click()
-            categories_header = driver.find_element(By.XPATH, '//*[@id="megaMenu"]/div[3]/div/div/ul/li[1]')
-            categories_header.click()
+            all_locations = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/div/div[1]/div[1]/div[1]/button/span[1]')))
+            driver.execute_script("arguments[0].click();", all_locations)
+            categories_header = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="megaMenu"]/div[3]/div/div/ul/li[1]')))
+            driver.execute_script("arguments[0].click();", categories_header)
             time.sleep(3)
-            categories = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[1]/div[1]/div[2]/button/span[1]').click()
+            categories = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/div/div[1]/div[1]/div[2]/button/span[1]')))
+            driver.execute_script("arguments[0].click();", categories)
             time.sleep(1)
-            electronics = driver.find_element(By.XPATH, '//*[@id="megaMenu"]/div[3]/div/div/div[3]/div[2]/ul/li[2]').click()
+            electronics = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="megaMenu"]/div[3]/div/div/div[3]/div[2]/ul/li[2]')))
+            driver.execute_script("arguments[0].click();", electronics)
             time.sleep(3)
 
-            # Find all product containers (assuming each product is in a div with a common class like 'productCardGrid')
             item_containers = driver.find_elements(By.CLASS_NAME, 'productCardGrid')
             if not item_containers:
                 print(f"No items found on the current page. Ending scrape.")
