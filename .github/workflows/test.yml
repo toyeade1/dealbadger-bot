@@ -26,15 +26,12 @@ jobs:
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    - name: Load environment variables
+    - name: Run Python script
       env:
         PHONE: ${{ secrets.PHONE }}
         SMS_API_KEY: ${{ secrets.SMS_API_KEY }}
         EMAIL: ${{ secrets.EMAIL }}
         EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-
-
-    - name: Run Python script
       run: python main.py --tl 12
 
 
