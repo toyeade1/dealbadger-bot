@@ -4,3 +4,5 @@ beautifulsoup4==4.12.3
 selenium==4.25.0
 twilio==9.3.4
 python-dotenv==1.0.1
+sendgrid==6.11.0
+certifi==2024.8.30
