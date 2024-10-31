@@ -1,7 +1,10 @@
 import os
 from dotenv import load_dotenv
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 import requests
 import smtplib
+import certifi
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -44,4 +47,21 @@ def send_notification_email(message):
     except Exception as e:
         return {"success": False, "error": str(e)}
 
+# def send_notification_email(message):
+#     message = Mail(
+#         from_email=os.getenv('EMAIL'),
+#         to_emails=os.getenv('EMAIL'),
+#         subject='Arbitrage Opportunity',
+#         html_content=message)
+#     try:
+#         sg = SendGridAPIClient(os.getenv('EMAIL_API_KEY'))
+#         response = sg.send(message)
+#         print(response.status_code)
+#         print(response.body)
+#         return {"success": True}
+#     except Exception as e:
+#         return {"success": False, "error": str(e)}
+    
 
+# exmaple usage
+# print(send_notification_email("Hello from DealBadger!"))
