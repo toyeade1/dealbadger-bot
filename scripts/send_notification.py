@@ -5,6 +5,7 @@ from sendgrid.helpers.mail import Mail
 import requests
 import smtplib
 import certifi
+import base64
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
