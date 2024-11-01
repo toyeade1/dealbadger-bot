@@ -51,7 +51,7 @@ jobs:
         EMAIL: ${{ secrets.EMAIL }}
         EMAIL2: ${{ secrets.EMAIL2 }}
         EMAIL_PASSWORD: $(cat decoded_password.txt)
-      run: python main.py --tl 16
+      run: python main.py --tl 18
 
 
 
