@@ -24,11 +24,12 @@ def send_notification_sms(message):
 def send_notification_email(message):
     try: 
         email = os.getenv('EMAIL')
+        email2 = os.getenv('EMAIL2')
         password = os.getenv('EMAIL_PASSWORD')
 
         msg = MIMEMultipart()
         msg['From'] = email
-        msg['To'] = email
+        msg['To'] = email2
         msg['Subject'] = "Arbitrage Opportunity"
 
         msg.attach(MIMEText(message, 'plain'))
@@ -38,7 +39,7 @@ def send_notification_email(message):
         server.login(email, password)
 
         text = msg.as_string()
-        server.sendmail(email, email, text)
+        server.sendmail(email, email2, text)
 
         server.quit()
 

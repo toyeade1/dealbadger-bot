@@ -36,6 +36,7 @@ jobs:
           PHONE: ${{ secrets.PHONE }}
           SMS_API_KEY: ${{ secrets.SMS_API_KEY }}
           EMAIL: ${{ secrets.EMAIL }}
+          EMAIL2: ${{ secrets.EMAIL2 }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
         run: python main.py --tl 12
   
