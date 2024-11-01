@@ -33,7 +33,7 @@ def send_notification_email(message):
 
         msg.attach(MIMEText(message, 'plain'))
 
-        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server = smtplib.SMTP('smtp.zoho.com', 587)
         server.starttls()
         server.login(email, password)
 
