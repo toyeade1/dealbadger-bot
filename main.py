@@ -13,7 +13,7 @@ def main():
     args = parser.parse_args()
     time_limit = args.tl
 
-    print(f"*********** Scraping DealBadger with a time limit of {time_limit} hours *************/n")
+    print(f"*********** Scraping DealBadger with a time limit of {time_limit} hours *************\n")
 
     base_url = "https://dealbadger.com/search"
     all_items = scrape_dealbadger(base_url, time_limit)

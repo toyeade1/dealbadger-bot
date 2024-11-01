@@ -31,9 +31,6 @@ jobs:
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    - name: Decode email password
-      run: echo "${{ secrets.EMAIL_PASSWORD_BASE64 }}" | base64 --decode > decoded_password.txt
-
     - name: Debug secrets
       run: |
         echo "EMAIL length: ${#EMAIL}"
@@ -50,7 +47,7 @@ jobs:
         SMS_API_KEY: ${{ secrets.SMS_API_KEY }}
         EMAIL: ${{ secrets.EMAIL }}
         EMAIL2: ${{ secrets.EMAIL2 }}
-        EMAIL_PASSWORD: $(cat decoded_password.txt)
+        EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }})
       run: python main.py --tl 18
 
 
