@@ -1,11 +1,7 @@
 import os
 from dotenv import load_dotenv
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
 import requests
 import smtplib
-import certifi
-import base64
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -66,4 +62,4 @@ def send_notification_email(message):
     
 
 # exmaple usage
-# print(send_notification_email("Hello from DealBadger!"))
+print(send_notification_email("Hello from DealBadger!"))

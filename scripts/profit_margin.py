@@ -50,7 +50,7 @@ def profitable_item(site, profit_margin_min=30):
         email = send_notification_email(profit_items)
         if email['success'] == True:
             print("Email notification sent successfully")
-            sms = send_notification_sms(f"Found opportunities for {len(profit_items)} items. Check your email for details.")
+            sms = send_notification_sms(f"Found opportunities for {profit_items.count("Arbitrage Opportunity")} items. Check your email for details.")
             if sms['success'] == True:
                 print("SMS notification sent successfully")
             else:
